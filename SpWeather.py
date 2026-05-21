@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 @loader.tds
 class GismeteoWeatherMod(loader.Module):
-    'Погодный модуль для ру городов [Gismeteo]'
+    "Погодный модуль для ру городов [Gismeteo]"
     strings = {
         "name": "GismeteoWeather",
         "loading": "<b>⏳ Загрузка метеоданных...</b>",
