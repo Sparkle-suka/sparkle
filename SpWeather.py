@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 @loader.tds
 class GismeteoWeatherMod(loader.Module):
-    """Погодный модуль для ру городов [Gismeteo]"""
+    #Погодный модуль для ру городов [Gismeteo]
     strings = {
         "name": "GismeteoWeather",
         "loading": "<b>⏳ Загрузка метеоданных...</b>",
@@ -128,11 +128,11 @@ class GismeteoWeatherMod(loader.Module):
                 await utils.answer(target, self.strings("error").format(str(e)))
 
     async def _cb_handler(self, call, lat, lon, city_name, days):
-        """Обработчик нажатий на инлайн-кнопки"""
+        #Обработчик нажатий на инлайн-кнопки
         await self.render_weather(call, lat, lon, city_name, days)
 
     def _get_desc(self, code):
-        """Перевод кодов Open-Meteo в текст"""
+        #Перевод кодов Open-Meteo в текст
         codes = {
             0: "Ясно", 1: "Преимущественно ясно", 2: "Переменная облачность", 3: "Пасмурно",
             45: "Туман", 48: "Иней", 51: "Легкая морось", 53: "Морось", 55: "Плотная морось",
