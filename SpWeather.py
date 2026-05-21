@@ -143,7 +143,7 @@ class GismeteoWeatherMod(loader.Module):
         return codes.get(code, "Смешанные условия")
 
     def _get_ico(self, code):
-        """Айконы!"""
+        """Айконы"""
         if code == 0: return "<tg-emoji emoji-id=5402477260982731644>☀️</tg-emoji>"
         if code in [1, 2]: return "<tg-emoji emoji-id=5350424168615649565>⛅️</tg-emoji>"
         if code == 3: return "☁️"
