@@ -32,7 +32,7 @@ class GismeteoWeatherMod(loader.Module):
         )
 
     async def weathercmd(self, message):
-        """Показать погоду. Использование: .weather <город>"""
+        """Показывает погоду ""
         args = utils.get_args_raw(message)
         city = args if args else self.config["default_city"]
         city_search = city.split(",")[0].strip()
