@@ -1,4 +1,4 @@
-# meta developer: @Nik4mnost
+# meta developer: @Nik4mnost <?>
 # scope: hikka_only
 
 import logging
