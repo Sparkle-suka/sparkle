@@ -146,8 +146,8 @@ class GismeteoWeatherMod(loader.Module):
         #иконки
         if code == 0: return "<tg-emoji emoji-id=5402477260982731644>☀️</tg-emoji>"
         if code in [1, 2]: return "<tg-emoji emoji-id=5350424168615649565>⛅️</tg-emoji>"
-        if code == 3: return "☁️"
-        if code in [45, 48]: return "🌫"
+        if code == 3: return "<tg-emoji emoji-id=5287571024500498635>☁️</tg-emoji>"
+        if code in [45, 48]: return "<tg-emoji emoji-id=5287571024500498635>☁️</tg-emoji>"
         if code in [51, 53, 55, 61, 63, 65, 80, 81, 82]: return "<tg-emoji emoji-id=5283243028905994049>🌧</tg-emoji>"
         if code in [71, 73, 75, 77, 85, 86]: return "<tg-emoji emoji-id=5449449325434266744>❄️</tg-emoji>"
         if code >= 95: return "<tg-emoji emoji-id=5282939632416206153>⛈</tg-emoji>"
