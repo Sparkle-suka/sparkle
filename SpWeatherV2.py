@@ -1,4 +1,5 @@
 # meta developer: @Nik4mnost <2347>
+# meta banner: https://x0.at/FJ51.png
 import aiohttp
 from .. import loader, utils
 
