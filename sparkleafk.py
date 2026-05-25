@@ -1,15 +1,15 @@
 # ------------------------------------------------------------
 # Module: SparkleAFK
-# Description: AFK модуль с поддержкой кастом сообщения и премиум статуса.
+# Description: AFK модуль с автостатусом
 # Author: @Nik4mnost
 # ------------------------------------------------------------
 # Licensed under the GNU AGPLv3
 # https:/www.gnu.org/licenses/agpl-3.0.html
 # ------------------------------------------------------------
-# Author: @Nik4mnost
+# Author: @Nik4mnost <2347>
 # Commands: .afk .unafk .ignorusers .timeafk .ignorechats
 # scope: hikka_only
-# meta banner: https://x0.at/RBiY.jpg
+# meta banner: https://x0.at/RMfs.png
 # meta developer: @Nik4mnost
 # ------------------------------------------------------------
 
@@ -29,20 +29,20 @@ logger = logging.getLogger(name)
 
 @loader.tds
 class SparkleAFKMod(loader.Module):
-    """ AFK модуль с поддержкой кастом сообщения и премиум статуса."""
+    """ AFK модуль с автостатусом"""
 
     strings = {
         "name": "SparkleAFK",
-        "gone": "<emoji document_id=5870948572526022116>✋</emoji> <b>I'm now in AFK mode</b>\n<emoji document_id=5870695289714643076>👤</emoji> <b>Last seen:</b> Just now\n<emoji document_id=5870729937215819584>⏰️</emoji> <b>Reason:</b> <i>{}</i>",
-        "gone_with_time": "<emoji document_id=5870948572526022116>✋</emoji> <b>I'm now in AFK mode</b>\n<emoji document_id=5870695289714643076>👤</emoji> <b>Last seen:</b> Just now\n<emoji document_id=5873146865637133757>🎤</emoji> <b>Will be back at:</b> <b>{}</b>\n<emoji document_id=5870729937215819584>⏰️</emoji> <b>Reason:</b> <i>{}</i>",
-        "back": "<emoji document_id=5883964170268840032>👤</emoji> <b>No longer in AFK mode.</b>",
-        "afk": "<emoji document_id=5870948572526022116>✋</emoji> <b>I'm in AFK mode</b>\n<emoji document_id=5870695289714643076>👤</emoji> <b>Last seen:</b> {} ago",
-        "afk_reason": "<emoji document_id=5870948572526022116>✋</emoji> <b>I'm in AFK mode</b>\n<emoji document_id=5870695289714643076>👤</emoji> <b>Last seen:</b> {} ago\n<emoji document_id=5870729937215819584>⏰️</emoji> <b>Reason:</b> <i>{}</i>",
-        "afk_reason_time": "<emoji document_id=5870948572526022116>✋</emoji> <b>I'm in AFK mode</b>\n<emoji document_id=5870695289714643076>👤</emoji> <b>Last seen:</b> {} ago\n<emoji document_id=5873146865637133757>🎤</emoji> <b>Will be back at:</b> <b>{}</b>\n<emoji document_id=5870729937215819584>⏰️</emoji> <b>Reason:</b> <i>{}</i>",
+        "gone": "<emoji document_id=5870948572526022116>✋</emoji> <b>In AFK mode</b>\n<emoji document_id=5870695289714643076>👤</emoji> <b>Last seen:</b> Just now\n<emoji document_id=5870729937215819584>⏰️</emoji> <b>Reason:</b> <i>{}</i>",
+        "gone_with_time": "<emoji document_id=5870948572526022116>✋</emoji> <b>In AFK mode</b>\n<emoji document_id=5870695289714643076>👤</emoji> <b>Last seen:</b> Just now\n<emoji document_id=5873146865637133757>🎤</emoji> <b>Will be back at:</b> <b>{}</b>\n<emoji document_id=5870729937215819584>⏰️</emoji> <b>Reason:</b> <i>{}</i>",
+        "back": "<emoji document_id=5883964170268840032>👤</emoji> <b>No in AFK mode.</b>",
+        "afk": "<emoji document_id=5870948572526022116>✋</emoji> <b>In AFK mode</b>\n<emoji document_id=5870695289714643076>👤</emoji> <b>Last seen:</b> {} ago",
+        "afk_reason": "<emoji document_id=5870948572526022116>✋</emoji> <b>In AFK mode</b>\n<emoji document_id=5870695289714643076>👤</emoji> <b>Last seen:</b> {} ago\n<emoji document_id=5870729937215819584>⏰️</emoji> <b>Reason:</b> <i>{}</i>",
+        "afk_reason_time": "<emoji document_id=5870948572526022116>✋</emoji> <b>In AFK mode</b>\n<emoji document_id=5870695289714643076>👤</emoji> <b>Last seen:</b> {} ago\n<emoji document_id=5873146865637133757>🎤</emoji> <b>Will be back at:</b> <b>{}</b>\n<emoji document_id=5870729937215819584>⏰️</emoji> <b>Reason:</b> <i>{}</i>",
         "default_afk_message": "<emoji document_id=5870948572526022116>✋</emoji> <b>Сейчас я в AFK режиме</b>\n<emoji document_id=5870695289714643076>👤</emoji> <b>Был в сети:</b> {was_online} назад\n{reason_text}{come_time}",
         "reason_text": "<emoji document_id=5870729937215819584>⏰️</emoji> <b>Ушел по причине:</b> <i>{reason}</i>\n",
         "come_text": "<emoji document_id=5873146865637133757>🎤</emoji> <b>Прийду в:</b> <b>{come_time}</b>",
-        "no_reason": "Нету",
+        "no_reason": "Без причины",
         "ignore_set": "✅ Установлено ограничение: {} сообщений за {} минут в одном чате",
         "time_limit_set": "✅ Установлено ограничение: {} сообщений за {} минут (ЛС: {} сообщений)",
         "ignored": "✅ <b>Chat added to AFK ignore list.</b>",
@@ -50,19 +50,19 @@ class SparkleAFKMod(loader.Module):
     }
 
     strings_ru = {
-        "gone": "<emoji document_id=5870948572526022116>✋</emoji> <b>Сейчас я в AFK режиме</b>\n<emoji document_id=5870695289714643076>👤</emoji> <b>Был в сети:</b> Только что\n<emoji document_id=5870729937215819584>⏰️</emoji> <b>Ушел по причине:</b> <i>{}</i>",
-        "gone_with_time": "<emoji document_id=5870948572526022116>✋</emoji> <b>Сейчас я в AFK режиме</b>\n<emoji document_id=5870695289714643076>👤</emoji> <b>Был в сети:</b> Только что\n<emoji document_id=5873146865637133757>🎤</emoji> <b>Прийду в:</b> <b>{}</b>\n<emoji document_id=5870729937215819584>⏰️</emoji> <b>Ушел по причине:</b> <i>{}</i>",
-        "back": "<emoji document_id=5883964170268840032>👤</emoji><b>Больше не в режиме AFK.</b>",
-        "afk": "<emoji document_id=5870948572526022116>✋</emoji> <b>Сейчас я в AFK режиме</b>\n<emoji document_id=5870695289714643076>👤</emoji> <b>Был в сети</b> {} назад",
-        "afk_reason": "<emoji document_id=5870948572526022116>✋</emoji> <b>Сейчас я в AFK режиме</b>\n<emoji document_id=5870695289714643076>👤</emoji> <b>Был в сети</b> {} назад\n<emoji document_id=5870729937215819584>⏰️</emoji> <b>Ушел по причине:</b> <i>{}</i>",
-        "afk_reason_time": "<emoji document_id=5870948572526022116>✋</emoji> <b>Сейчас я в AFK режиме</b>\n<emoji document_id=5870695289714643076>👤</emoji> <b>Был в сети</b> {} назад\n<emoji document_id=5873146865637133757>🎤</emoji> <b>Прийду в:</b> <b>{}</b>\n<emoji document_id=5870729937215819584>⏰️</emoji> <b>Ушел по причине:</b> <i>{}</i>",
-        "default_afk_message": "<emoji document_id=5870948572526022116>✋</emoji> <b>Сейчас я в AFK режиме</b>\n<emoji document_id=5870695289714643076>👤</emoji> <b>Был в сети:</b> {was_online} назад\n{reason_text}{come_time}",
+        "gone": "<emoji document_id=5870948572526022116>✋</emoji> <b>В AFK режиме</b>\n<emoji document_id=5870695289714643076>👤</emoji> <b>Был в сети:</b> Только что\n<emoji document_id=5870729937215819584>⏰️</emoji> <b>Ушел по причине:</b> <i>{}</i>",
+        "gone_with_time": "<emoji document_id=5870948572526022116>✋</emoji> <b>В AFK режиме</b>\n<emoji document_id=5870695289714643076>👤</emoji> <b>Был в сети:</b> Только что\n<emoji document_id=5873146865637133757>🎤</emoji> <b>Прийду в:</b> <b>{}</b>\n<emoji document_id=5870729937215819584>⏰️</emoji> <b>Ушел по причине:</b> <i>{}</i>",
+        "back": "<emoji document_id=5883964170268840032>👤</emoji><b>Больше не в AFK.</b>",
+        "afk": "<emoji document_id=5870948572526022116>✋</emoji> <b>В AFK режиме</b>\n<emoji document_id=5870695289714643076>👤</emoji> <b>Был в сети</b> {} назад",
+        "afk_reason": "<emoji document_id=5870948572526022116>✋</emoji> <b>В AFK режиме</b>\n<emoji document_id=5870695289714643076>👤</emoji> <b>Был в сети</b> {} назад\n<emoji document_id=5870729937215819584>⏰️</emoji> <b>Ушел по причине:</b> <i>{}</i>",
+        "afk_reason_time": "<emoji document_id=5870948572526022116>✋</emoji> <b>В AFK режиме</b>\n<emoji document_id=5870695289714643076>👤</emoji> <b>Был в сети</b> {} назад\n<emoji document_id=5873146865637133757>🎤</emoji> <b>Прийду в:</b> <b>{}</b>\n<emoji document_id=5870729937215819584>⏰️</emoji> <b>Ушел по причине:</b> <i>{}</i>",
+        "default_afk_message": "<emoji document_id=5870948572526022116>✋</emoji> <b>В AFK режиме</b>\n<emoji document_id=5870695289714643076>👤</emoji> <b>Был в сети:</b> {was_online} назад\n{reason_text}{come_time}",
         "reason_text": "<emoji document_id=5870729937215819584>⏰️</emoji> <b>Ушел по причине:</b> <i>{reason}</i>\n",
         "come_text": "<emoji document_id=5873146865637133757>🎤</emoji> <b>Прийду в:</b> <b>{come_time}</b>",
-        "no_reason": "Нету",
+        "no_reason": "Без причины",
         "ignore_set": "✅ Установлено ограничение: {} сообщений за {} минут в одном чате",
         "time_limit_set": "✅ Установлено ограничение: {} сообщений за {} минут (ЛС: {} сообщений)",
-        "ignored": "✅ <b>Текущий чат добавлен в исключения AFK (бот тут не будет отвечать).</b>",
+        "ignored": "✅ <b>Текущий чат добавлен в исключения AFK.</b>",
         "unignored": "❎ <b>Текущий чат удален из исключений AFK.</b>"
     }
     
@@ -77,7 +77,7 @@ class SparkleAFKMod(loader.Module):
             loader.ConfigValue(
                 "setPremiumStatus",
                 True,
-                lambda: "Ставить премиум статус при афк.",
+                lambda: "Автостатус статус при афк.",
                 validator=loader.validators.Boolean()
             ),
             loader.ConfigValue(
@@ -95,7 +95,7 @@ class SparkleAFKMod(loader.Module):
             loader.ConfigValue(
                 "customEmojiStatus",
                 4969889971700761796,
-                lambda: "Здесь вы можете поставить кастомный премиум статус. Взять Document ID статуса легко, отправьте премиум стикер, напишите e r.text и там же выйдет document_id. Вставьте только цифры.",
+                lambda: "Здесь вы можете поставить кастомный премиум статус. Взять Document ID статуса легко, отправьте премиум стикер, напишите e r.text и там же выйдет document_id.",
                 validator=loader.validators.Integer()
             )
         )
@@ -145,23 +145,23 @@ class SparkleAFKMod(loader.Module):
             default=default_message
         )
 
-    @loader.command(ru_doc="[причина] [время] - Установить режим AFK")
+    @loader.command(ru_doc="[причина] [время] - Включить режим AFK")
     async def afk(self, message):
-        """[reason] [time] - Set AFK mode status"""
+        """[reason] [time] - Turn on  AFK mode status"""
         args = utils.get_args_raw(message)
         reason = None
         time_val = None
 
         if args:
             parts = args.rsplit(" ", 1)
-            # Проверяем, похоже ли последнее слово на время (цифры + буквы/символы)
+            # Проверка(ягей)
             if len(parts) > 1 and re.match(r'^(\d{1,2}[:.]\d{2}|\d+[a-zA-Zа-яА-Я]+)$', parts[1]):
                 reason = parts[0]
                 time_val = parts[1]
             else:
                 reason = args
 
-        if reason == "Нету":
+        if reason == "Без причины":
             reason = None
 
         if self.config["setPremiumStatus"]:
@@ -183,12 +183,12 @@ class SparkleAFKMod(loader.Module):
         self.answered_users.clear()
         self.chat_messages.clear()
 
-        preview_message = "<emoji document_id=5870730156259152122>😀</emoji> <b>AFK режим включен!</b>\n<emoji document_id=5877700484453634587>✈️</emoji> <b>SparkleAFK будет отвечать вам этим сообщением:</b>\n\n"
+        preview_message = "<emoji document_id=5870730156259152122>😀</emoji> <b>AFK режим включен.</b><b></b>\n\n"
         preview = self._format_custom_message("Только что", reason, time_val)
         
         await utils.answer(message, preview_message + preview)
 
-    @loader.command(ru_doc="Выйти из режима AFK")
+    @loader.command(ru_doc="Выйти из  AFK")
     async def unafk(self, message):
         """Exit AFK mode"""
         self._db.set(name, "afk", False)
@@ -288,7 +288,7 @@ class SparkleAFKMod(loader.Module):
             if not afk_state:
                 return
 
-            # Проверка, не находится ли чат в списке исключений
+            # Проверка чата на исключение.
             chat_id = utils.get_chat_id(message)
             ignored_chats = self._db.get(name, "ignored_chats", [])
             if chat_id in ignored_chats:
@@ -325,3 +325,4 @@ class SparkleAFKMod(loader.Module):
 
     def get_afk(self):
         return self._db.get(name, "afk", False)
+        
