@@ -1,4 +1,4 @@
-SpWeather
+SpWeatherV2
 TikTokMod
 sparkleafk
 SwMute
